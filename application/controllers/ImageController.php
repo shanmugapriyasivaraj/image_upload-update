@@ -45,8 +45,7 @@ class ImageController extends CI_Controller {
     }
     public function edit_image(){
 
-        $responseArray = array();
-        $responseArray["response_status"]="failed";
+   
     
         $image_id =  $this->input->post("image_id");  
     
@@ -54,20 +53,52 @@ class ImageController extends CI_Controller {
             "image_id" =>$image_id
         );
     
-        $getImageDetails=$this->CrudModel->get('image',$where);
+        $data['image_details']=$this->CrudModel->get('image',$where);
+
+        $this->load->view('imageModal',$data);
         
-        if($getImageDetails != false){
-            $responseArray["response_status"]="success";
-            foreach($getImageDetails as $getImageDetails){
-                $responseArray["img_data"] = $getImageDetails;
-                $responseArray["response_status"]="success";
     
     }
-        }
-        echo json_encode($responseArray);
-    }    
-public function updateImage(){
-    print_r($_POST);
-    exit();
-}
-    }
+    public function updateImage(){
+       
+        if(($_FILES["edit_image"]["name"])){
+         
+            $config['upload_path']='./assets/uploads/';
+            $config['allowed_types']='*';
+    
+            $this->upload->initialize($config);
+            $this->upload->do_upload("edit_image");
+            
+                $img_data = array('img_upload' => $this->upload->data());
+                 $image1= $img_data['img_upload']['file_name']; 
+        
+                 $name = $this->input->post("edit_name");
+                 $image_id = $this->input->post("edit_image_id");
+                 $image = $image1;
+                 $where = array(
+                    "image_id"=>$image_id
+                );
+               
+                 $data = array(
+                    "name"=>$name,
+                    "image"=>$image);
+                    $upload = $this->CrudModel->update('image',$data,$where);
+                 }
+                    $name = $this->input->post("edit_name");
+                    $image_id = $this->input->post("edit_image_id");
+          
+                    $where = array(
+                        "image_id"=>$image_id
+                    );
+                    $data = array(
+                        "name"=>$name,
+                    );
+                    $upload = $this->CrudModel->update('image',$data,$where);
+                 }
+                }
+        
+    
+        
+ 
+     
+

@@ -24,38 +24,56 @@
             
                 }
         }
+        function getApprovedDetails(expense_id){
+        // alert(expense_id);
+        $.ajax({
+            method: "POST",
+            url: "<?php echo base_url(); ?>approvedList",
+            data: {expense_id:expense_id},
+            cache: false,
+            error: function(data){
+                alert("error");
+                console.log(data);
+            },
+            success: function(data){
+            //alert(data);
+            //console.log(data);
+            
+            $("#approved_list_modal").html(data);
+            $("#approved_list_modal").modal("show");
+        }
+        });
+    }
     function editImg(image_id){
-        // alert(image_id);
-        var params = "image_id="+image_id;
+
         $.ajax({
              type : "POST",
              url  :  '<?php echo base_url();?>'+"edit_image",	 	          	
-             data :params,
-             success: function(data){
-            //  console.log(data);
-              var myObj = JSON.parse(data);
-              var responseStatus = myObj["response_status"];
-              var img_data = myObj["img_data"];
-
-              var image_id = img_data.image_id;
-              var name = img_data.name;
-              var image = img_data.image;
-              if(responseStatus == "success"){	 
-                
-                $("#edit_image_id").val(image_id); 
-                $("#edit_name").val(name);
-                $("#edit_image").val(image);
-     }
+             data :{image_id:image_id},
+             cache: false,
+            error: function(data){
+                alert("error");
+                console.log(data);
+            },
+            success: function(data){
+            //alert(data);
+            //console.log(data);
+            
+            $("#image_modal").html(data);
+            $("#image_modal").modal("show");
+        }
+        });
 }
-        })
-    }
+    
     function editVal(){
         isValid = false;
 
         var edit_image_id = $("#edit_image_id").val();
         var edit_name = $('#edit_name').val();
-        var edit_image = $('#edit_image').val();
-
+//         var edit_image = $('#edit_image').val();
+//         //  var old_image = $('#old_image').val();
+//          var old_image = document.getElementById('old_image');
+// alert(old_image);
         isValid = true;
         return isValid;
     }
