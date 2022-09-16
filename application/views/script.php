@@ -24,26 +24,7 @@
             
                 }
         }
-        function getApprovedDetails(expense_id){
-        // alert(expense_id);
-        $.ajax({
-            method: "POST",
-            url: "<?php echo base_url(); ?>approvedList",
-            data: {expense_id:expense_id},
-            cache: false,
-            error: function(data){
-                alert("error");
-                console.log(data);
-            },
-            success: function(data){
-            //alert(data);
-            //console.log(data);
-            
-            $("#approved_list_modal").html(data);
-            $("#approved_list_modal").modal("show");
-        }
-        });
-    }
+
     function editImg(image_id){
 
         $.ajax({

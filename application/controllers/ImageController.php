@@ -54,6 +54,7 @@ class ImageController extends CI_Controller {
         );
     
         $data['image_details']=$this->CrudModel->get('image',$where);
+        
 
         $this->load->view('imageModal',$data);
         
